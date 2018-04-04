@@ -24,3 +24,8 @@
 
 # ignore spring files
 /spring/*.pid
+
+
+# ignore Bundler
+/vendor/bundle
+#
