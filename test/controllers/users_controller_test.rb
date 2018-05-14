@@ -13,11 +13,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  test "shouled redirect index when not logged in" do
+    get users_path
+    assert_redirected_to login_url
+  end
+
+
   test 'should redirect update when logged in as wrong user' do
     log_in_as(@other_user)
     patch user_path(@user), params: { user: { name: @user.name,
                                               email: @user.email } }
     assert flash.empty?
     assert_redirected_to root_url
+  end
+
+  test 'should get index page when logged in' do
+    log_in_as(@user)
+    get users_path
+    assert_response :success
   end
 end
