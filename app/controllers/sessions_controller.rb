@@ -4,11 +4,19 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: params[:session][:email].downcase)
     if @user && @user.authenticate(params[:session][:password])
-      # admit login. redirect to user page
-      log_in @user
-      # use cookie when remember_me = 1
-      params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_back_or @user
+      if @user.activated?
+        # admit login. redirect to user page
+        log_in @user
+        # use cookie when remember_me = 1
+        params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
+        redirect_back_or @user
+      else
+        message = "Acconut not activated"
+        message  +=  "Check your email for the activation link."
+        flash[:warning] = message
+        redirect_to root_url
+      end
+
     else
       # error
       flash.now[:danger] = 'Invalid/password combination'
