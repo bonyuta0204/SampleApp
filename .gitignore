@@ -28,7 +28,7 @@
 
 # ignore Bundler
 /vendor/bundle
-#
+
 #ignore vscode
 .vscode
 tags
