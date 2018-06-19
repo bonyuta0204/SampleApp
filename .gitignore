@@ -32,3 +32,6 @@
 #ignore vscode
 .vscode
 tags
+
+# ignore uploaded images
+/public/uploads
