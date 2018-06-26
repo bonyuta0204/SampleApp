@@ -8,6 +8,8 @@ class User < ApplicationRecord
                                   dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_microposts,  through: :favorites, source: :micropost
 
 
   attr_accessor :remember_token, :activation_token, :reset_token
@@ -86,6 +88,18 @@ class User < ApplicationRecord
 
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  def favorite(micropost)
+    favorites.create(micropost_id: micropost.id)
+  end
+
+  def unfavorite(micropost)
+    favorites.find_by(micropost_id: micropost.id).destroy
+  end
+
+  def favorite?(micropost)
+    favorite_microposts.include?(micropost)
   end
 
   private

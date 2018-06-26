@@ -69,4 +69,44 @@ class UserTest < ActiveSupport::TestCase
     michael.unfollow(archer)
     assert_not michael.following?(archer)
   end
+
+  test "feed should have the right posts" do
+    michael = users(:michael)
+    archer  = users(:archer)
+    lana    = users(:lana)
+    # フォローしているユーザーの投稿を確認
+    lana.microposts.each do |post_following|
+      assert michael.feed.include?(post_following)
+    end
+    # 自分自身の投稿を確認
+    michael.microposts.each do |post_self|
+      assert michael.feed.include?(post_self)
+    end
+    # フォローしていないユーザーの投稿を確認
+    archer.microposts.each do |post_unfollowed|
+      assert_not michael.feed.include?(post_unfollowed)
+    end
+  end
+
+  test 'should favorite and unfavorite a micropost' do
+    archer = users(:archer)
+    orange = microposts(:orange)
+    assert_not  archer.favorite?(orange)
+    archer.favorite(orange)
+    assert archer.favorite?(orange)
+    archer.unfavorite(orange)
+    assert_not  archer.favorite_microposts.include?(orange)
+  end
+
+  test 'favorite sholud unique' do
+    archer = users(:archer)
+    orange = microposts(:orange)
+    assert_not  archer.favorite?(orange)
+    archer.favorite(orange)
+    assert archer.favorite?(orange)
+    assert_no_difference 'Favorite.count' do
+      archer.favorite(orange)
+    end 
+  end
 end
+

@@ -25,6 +25,9 @@ section {
 textarea {
   resize: vertical;
 }
+.clear{
+ clear:both;
+}
 
 .center{
 
@@ -263,6 +266,18 @@ input {
     display: block;
     padding: 5px 0;
     float: left;
+  }
+
+  .micropost_bar {
+    height:30px; 
+    img {
+    height: 30px;
+    }
+  }
+
+  .micropost_button{
+    border:unset; 
+    background-color:transparent;
   }
 
   .timestamp {

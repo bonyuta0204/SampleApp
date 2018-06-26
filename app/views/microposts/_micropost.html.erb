@@ -1,15 +1,37 @@
 <li id="micropost-<%= micropost.id %>">
-    <%= link_to gravatar_for(micropost.user,size:50), micropost.user %>
-    <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-    <span class="content">
-      <%= micropost.content%>
-      <%= image_tag micropost.picture.url if micropost.picture? %>
-    </span>
-    <span class="timestamp">
-     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  <%= link_to gravatar_for(micropost.user,size:50), micropost.user %>
+  <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+  <span class="content">
+    <%= micropost.content%>
+    <%= image_tag micropost.picture.url if micropost.picture? %>
+  </span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete, data: { confirm: "You sure?"} %>
-     <% end %>
-    </span>
+    <% end %>
+  </span>
 
+  <span class="micropost_bar">
+    <% if current_user && current_user.favorite?(micropost)  %>    
+      <%= form_for(current_user.favorites.build) do |f| %>
+        <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
+        <%= button_tag class: "micropost_button", type: "submit" do %>
+          <%= image_tag "star_color.png" %>
+        <% end %>
+      <% end %>
+
+    <% elsif  current_user %>
+      <%= form_for(current_user.favorites.build) do |f| %>
+        <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
+        <%= button_tag class: "micropost_button", type: "submit" do %>
+          <%= image_tag "star_no_color.png" %>
+        <% end %>
+      <% end %>
+
+    <% else %>
+
+    <% end %>
+  </span>
+  <div class=clear></div>
 </li>
