@@ -14,7 +14,7 @@
 
   <span class="micropost_bar">
     <% if current_user && current_user.favorite?(micropost)  %>    
-      <%= form_for(current_user.favorites.build) do |f| %>
+      <%= form_for(current_user.favorites.find_by(micropost_id: micropost.id), html: { method: :delete}) do |f| %>
         <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
         <%= button_tag class: "micropost_button", type: "submit" do %>
           <%= image_tag "star_color.png" %>
