@@ -269,11 +269,16 @@ input {
   }
 
   .micropost_bar {
-    height:30px; 
     img {
-    height: 30px;
+      height: 30px;
+      transition: .3s;
+      &:hover {
+        opacity: 0.5;
+      }
     }
+
   }
+
 
   .micropost_button{
     border:unset; 
