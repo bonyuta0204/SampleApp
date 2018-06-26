@@ -6,8 +6,6 @@ class RelationshipTest < ActiveSupport::TestCase
   end
 
   test 'sholud be valid' do
-    pp users(:archer)
-    pp @relationship
     assert @relationship.valid?
   end
 
